@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>N Queens Placement Problem</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3-drag.v1.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <h1 id="title">Find solutions for N queens placement problem</h1>
+    
+    <div id="btn-container">
+        <h3>Pick a Number between 4-10</h3>
+        <h4 id="instruction">Click GET to generate solutions</h4>
+        <h4 id="status"></h4>
+        <input type="number" id="inputNum" name="inputNum" min="4" max="10">
+        <button id="btnGet" onclick=getSol()>Get Solution</button>
+        <button id="btnNext" onclick=nextSol()>Next Solution</button> 
+    </div>
+    <div id="svg-container"></div>
+
+    <script src="NQueensPlacemet.js"></script>
+</body>
+
+</html>
