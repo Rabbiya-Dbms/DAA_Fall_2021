@@ -46,3 +46,15 @@ var nextQueen = function (total, queens, col) {
 
 board(nextQueen(28, 28))
 console.log('\niter: ', iter)
+
+
+///
+var print_board = function (columns) {
+  for (let i = 0; i < columns.length; i++) {
+    for (let j = 0; j < columns.length; j++) {
+      process.stdout.write(columns[i] === j ? "Q " : "# ");
+    }
+    process.stdout.write("\n");
+  }
+};
+/////
