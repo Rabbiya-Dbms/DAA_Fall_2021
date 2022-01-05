@@ -114,3 +114,62 @@ const makeBoard = (n, allSol, ind) => {
         }
     }
 }
+// by default
+const init = () => {
+    makeBoard(8, [[]], 0);
+}
+init();
+
+//make board clear
+const clear = () => {
+    d3.select("svg").remove();
+}
+
+//DOM Selection here
+//const btnGet = document.getElementById("btnGet");
+const inputNum = document.getElementById("inputNum");
+const instruction = document.getElementById("instruction");
+const status = document.getElementById("status");
+const title = document.getElementById("title");
+let ind = 0; //ind to count sols when showing on chess boards
+
+
+/**
+ * Function here 
+ */
+
+const solGet = () => {
+    n = parseInt(inputNum.value);
+    if (Number.isNaN(n)) {
+        instruction.innerHTML = "Please enter a number";
+    }
+    else if (n < 4 || n > 20) {
+        instruction.innerHTML = "Please enter a number between 4 and 20";
+    } else {
+        clear();
+        const allSol = nqueenSol(n);
+        title.innerHTML = `Find sols for ${n} nqueens problem`
+        instruction.innerHTML = "Click Next to see sols";
+        status.innerHTML = `There are ${allSol.length} sols.`;
+        return [n, allSol];
+    }
+}
+
+//Solutions Sequence
+const nextSol = () => {
+    //console.log(ind);
+    // get n and allSol   
+    const vars = solGet();
+    //console.log(vars[0]);
+    //console.log(vars[1].length);
+    //draw chess board with n nqueens
+    makeBoard(vars[0], vars[1], ind);
+    if (ind < vars[1].length - 1) {
+        status.innerHTML = ` Solution ${ind + 1}`;
+        ind++;
+    } else {
+        //console.log(ind);
+        status.innerHTML = ` Solution ${ind + 1}. You reach the last solution limit!`;
+        ind = 0;
+    }
+}
