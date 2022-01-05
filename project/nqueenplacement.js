@@ -1,4 +1,4 @@
-const theconst = (rows, col, sol) => {
+const constraint = (rows, col, sol) => {
     for (let i = 0; i < rows; i++) {
         if (sol[i] === col ||
             Math.abs(col - sol[i]) === Math.abs(rows - i)) {
@@ -8,40 +8,48 @@ const theconst = (rows, col, sol) => {
     return true;
 }
 
-const allRows = (row, cols, prevStep) => {
-    let newSols = [];
-    let prev = prevStep;
+// Loop function from all col and rows
+
+const allRows = (row, cols, lstSol) => {
+    
+    let latestSol = [];
+    let prev = lstSol;
 
     for (let i = 0; i < prev.length; i++) {
         let sol = prev[i];
-      
+        // col loop
         for (let j = 0; j < cols; j++) {
-            
-            if (theconst(row, j, sol)) {
-             
-                newSols.push(sol.concat([j]));
+            //possibility to place queen in j 
+            if (constraint(row, j, sol)) {
+                // if yes then place
+                latestSol.push(sol.concat([j]));
             }
         }
     }
     if (row === cols - 1) {
-        
-        result = newSols;
-       
+        //console.log(row);
+        result = latestSol;
+        //console.log(result); 
 
     } else {
-       
-        allRows(row + 1, cols, newSols);
+        // it cont to other rows
+        allRows(row + 1, cols, latestSol);
     }
     return result;
 };
 
+//Function to run
 
 
-const nnqueens_sol = (n) => {
+const nqueenSol = (n) => {
     const init = [[]];
-    const totalSols = allRows(0, n, init);
-    return totalSols;
+    const allSol = allRows(0, n, init);
+    //console.log(allSol.length);
+    return allSol;
 }
+
+
+// for chess board
 
 const nqueen = {
     name: "nqueen",
@@ -49,102 +57,60 @@ const nqueen = {
     b: "\u265B"
 };
 
-const board = (n, totalSols, ind) => {
- 
-    const size = 100,
-        dimension = n,
-        boardSize = dimension * size,
+// chess board drawing
+
+const makeBoard = (n, allSol, ind) => {
+    //create chess board
+    //set board 
+    const bSize = 100,
+        b_dimension = n,
+        board_size = b_dimension * bSize,
         margin = 100;
- 
+    // // solution get of nqueens
+    // const nNqueens = nqueenSol(b_dimension);
+    // set <body>
     const div = d3.select("#svg-container");
 
-   
+    // create <svg>
     const svg = div.append("svg")
-        .attr("width", boardSize + "px")
-        .attr("height", boardSize + "px");
+        .attr("width", board_size + "px")
+        .attr("height", board_size + "px");
 
-  
-    for (let i = 0; i < dimension; i++) {
-        for (let j = 0; j < dimension; j++) {
-            
+    // chess board loop through cols and rows
+    for (let i = 0; i < b_dimension; i++) {
+        for (let j = 0; j < b_dimension; j++) {
+            // board fields
             const box = svg.append("rect")
-                .attr("x", i * size)
-                .attr("y", j * size)
-                .attr("width", size + "px")
-                .attr("height", size + "px");
+                .attr("x", i * bSize)
+                .attr("y", j * bSize)
+                .attr("width", bSize + "px")
+                .attr("height", bSize + "px");
             if ((i + j) % 2 === 0) {
-                box.attr("fill", "beige");
+                box.attr("fill", "white");
             } else {
                 box.attr("fill", "gray");
             }
 
-             
-            const chessBoard = svg.append("text")
+            // draw players
+            const chess = svg.append("text")
                 .classed('draggable', true)
-                .style("font-size", size*3/4)
+                .style("font-size", bSize*3/4)
                 .attr("text-anchor", "middle")
-                .attr("x", i * size)
-                .attr("y", j * size)
-                .attr("dx", size / 2)
-                .attr("dy", size * 3 / 4)
+                .attr("x", i * bSize)
+                .attr("y", j * bSize)
+                .attr("dx", bSize / 2)
+                .attr("dy", bSize * 3 / 4)
                 .style("text-shadow", "2px 2px 4px #757575");
 
-            
-            if (j === totalSols[ind][i]) {
-                chessBoard.attr("id", "b" + j + i)
+            // chess.attr("X", chess.attr("x"))
+            //   .attr("Y", chess.attr("y"));
+
+            // create players
+            if (j === allSol[ind][i]) {
+                chess.attr("id", "b" + j + i)
                     .classed('team1', true)
                     .text(nqueen.b);
             }
         }
-    }
-}
-
-
-const init = () => {
-    board(8, [[]], 0);
-}
-init();
-
-
-const clear = () => {
-    d3.select("svg").remove();
-}
-
-
-const ip_num = document.getElementById("ip_num");
-const inst = document.getElementById("inst");
-const status = document.getElementById("status");
-const main = document.getElementById("main");
-let ind = 0; 
-
-const getSol = () => {
-    n = parse_int(ip_num.value);
-    if (Number.isNaN(n)) {
-        inst.innerHTML = "Please enter a number";
-    }
-    else if (n < 4 || n > 10) {
-        inst.innerHTML = "Please enter a number between 4 and 10";
-    } else {
-        clear();
-        const totalSols = nnqueens_sol(n);
-        main.innerHTML = `Find sols for ${n} nqueens placement problem`
-        inst.innerHTML = "Click Next to see further solutions";
-        status.innerHTML = `There are ${totalSols.length} solutions.`;
-        return [n, totalSols];
-    }
-}
-
-
-const nextSol = () => {
-      
-    const varr = getSol();
-    board(varr[0], varr[1], ind);
-    if (ind < varr[1].length - 1) {
-        status.innerHTML = ` Sol ${ind + 1}`;
-        ind++;
-    } else {
-       
-        status.innerHTML = ` Solution num ${ind + 1}. You reach the limit;
-        ind = 0;
     }
 }
