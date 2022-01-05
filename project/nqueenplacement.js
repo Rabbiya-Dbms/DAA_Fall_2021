@@ -53,7 +53,7 @@ const nqueenSol = (n) => {
 
 const nqueen = {
     name: "nqueen",
-    w: "\u2655",
+    w: "\u2000",
     b: "\u265B"
 };
 
