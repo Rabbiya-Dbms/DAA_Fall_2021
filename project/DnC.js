@@ -27,3 +27,8 @@ const allRows = (row, cols, lstSol) => {
     }
     return result;
 };
+
+// We have discovered that:
+//It's encouraging to learn that global constraints in a problem 
+//that was previously considered to necessitate backtracking 
+//(which is anathema to distributed and parallel systems) may be divisibleand-conquerable.
