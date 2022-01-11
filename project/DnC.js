@@ -1,5 +1,10 @@
 // where DnC logic placed in our code:
 
+ 
+//Execution Time: 0.093ms
+
+
+console.time('Execution Time');
 const allRows = (row, cols, lstSol) => {
     
     let latestSol = [];
@@ -27,6 +32,7 @@ const allRows = (row, cols, lstSol) => {
     }
     return result;
 };
+console.timeEnd('Execution Time');
 
 // We have discovered that:
 //It's encouraging to learn that global constraints in a problem 
