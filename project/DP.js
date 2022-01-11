@@ -2,6 +2,10 @@
 
 //Constraints Function
 // Each solution is a collection of variables in an array
+
+//Execution Time: 0.099ms
+console.time('Execution Time');
+ 
 const Constraints = (rows, col, sol) => {
     for (let i = 0; i < rows; i++) {
         if (sol[i] === col ||
@@ -11,8 +15,7 @@ const Constraints = (rows, col, sol) => {
     }
     return true;
 }
-
-
+console.timeEnd('Execution Time');
 
 //Verification. Assume that S is the set of closed lines and that m is the number of queens put by C.
 //Let C be the result of completing C. Because C and C both have the same number of queens,
